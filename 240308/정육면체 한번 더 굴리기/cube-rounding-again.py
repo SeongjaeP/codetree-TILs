@@ -15,27 +15,27 @@ def move (n, matrix, dir, x, y, row, column):
         dir = (dir + 2) % 4
         nx, ny = x + direction[dir][0], y + direction[dir][1]
 
-    if dir == 0:
-        row.rotate(1)
-        column[0] = column[0]
-        column[2] = row[2]
-    elif dir == 1:
-        column.rotate(-1)
-        row[0] = column[0]
-        row[2] = column[2]
-    elif dir == 2:
+    if dir==0:
         row.rotate(1)
         column[0] = row[0]
         column[2] = row[2]
-    elif dir == 3:
+    elif dir==1:
+        column.rotate(-1)
+        row[0] = column[0]
+        row[2] = column[2]
+    elif dir==2:
+        row.rotate(-1)
+        column[0] = row[0]
+        column[2] = row[2]
+    elif dir==3:
         column.rotate(1)
         row[0] = column[0]
         row[2] = column[2]
 
-    if row[2] > matrix[nx][ny]:
-        dir = (dir + 1) % 4
-    elif row[2] < matrix[nx][ny]:
-        dir = (dir + 3) % 4
+    if row[2]>graph[nx][ny]:
+        dir = (dir+1)%4
+    elif row[2]<graph[nx][ny]:
+        dir = (dir+3)%4
 
     return dir, nx, ny, row, column
 
