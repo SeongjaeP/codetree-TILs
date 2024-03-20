@@ -8,12 +8,9 @@ n, m = map(int, input().split())
 x, y, d = map(int, input().split())
 car_matrix = [list(map(int, input().split())) for _ in range(n)]
 
-# 
 dx = [-1, 0, 1, 0]
 dy = [0, -1, 0, 1]
 car_matrix[x][y] = 2
-
-
 result = 1
 
 def dfs(x, y, d, d_cnt):
@@ -30,15 +27,12 @@ def dfs(x, y, d, d_cnt):
         nd = (d + 3) % 4
         nx = x + dx[nd]
         ny = y + dy[nd]
-        if car_matrix[nx][ny] == 0:
+        if 0 <= nx < n and 0 <= ny < m and car_matrix[nx][ny] == 0:
             car_matrix[nx][ny] = 2
             result += 1
             dfs(nx, ny, nd, 0)
         else:
             dfs(x, y, nd, d_cnt + 1)
-        
-
-
         
 dfs(x, y, d, 0)
 print(result)
