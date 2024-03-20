@@ -20,7 +20,7 @@ def dfs(x, y, d, d_cnt):
         nx = x - dx[d]
         ny = y - dy[d]
         if car_matrix[nx][ny] == 1: # 후진까지 했는데 갈 곳이 없으면 끝내
-            return
+            break
         else:
             dfs(nx, ny, d, 0)
     else:
