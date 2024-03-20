@@ -8,8 +8,9 @@ n, m = map(int, input().split())
 x, y, d = map(int, input().split())
 car_matrix = [list(map(int, input().split())) for _ in range(n)]
 
+#      0  1 2  3
 dx = [-1, 0, 1, 0]
-dy = [0, -1, 0, 1]
+dy = [0, 1, 0, -1]
 car_matrix[x][y] = 2
 result = 1
 
