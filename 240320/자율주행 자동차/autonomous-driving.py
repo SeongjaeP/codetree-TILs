@@ -13,7 +13,7 @@ dy = [0, -1, 0, 1]
 car_matrix[x][y] = 2
 result = 1
 
-def dfs(x, y, d, d_cnt):
+def dfs(x, y, d, d_cnt=0):
     global result
     # d_cnt가 4이면 전진하지 못했으니까 d를 유지하면서 뒤로 한칸.
     if d_cnt == 4:
