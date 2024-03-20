@@ -23,7 +23,7 @@ def dfs(x, y, d, d_cnt):
         back_d = (d + 2) % 4
         nx = x + dx[back_d]
         ny = y + dy[back_d]
-        if 0 <= nx < n and 0 <= ny < m and car_matrix[nx][ny] == 1: # 후진까지 했는데 갈 곳이 없으면 끝내
+        if car_matrix[nx][ny] == 1: # 후진까지 했는데 갈 곳이 없으면 끝내
             return
         else:
             car_matrix[nx][ny] = 2
