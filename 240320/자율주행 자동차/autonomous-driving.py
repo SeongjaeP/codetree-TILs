@@ -20,13 +20,11 @@ def dfs(x, y, d, d_cnt):
     global result
     # d_cnt가 4이면 전진하지 못했으니까 d를 유지하면서 뒤로 한칸.
     if d_cnt == 4:
-        back_d = (d + 2) % 4
-        nx = x + dx[back_d]
-        ny = y + dy[back_d]
+        nx = x - dx[d]
+        ny = y - dy[d]
         if car_matrix[nx][ny] == 1: # 후진까지 했는데 갈 곳이 없으면 끝내
             return
         else:
-            car_matrix[nx][ny] = 2
             dfs(nx, ny, d, 0)
     else:
         nd = (d + 3) % 4
