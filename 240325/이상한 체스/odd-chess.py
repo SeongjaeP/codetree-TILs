@@ -1,50 +1,42 @@
-from itertools import product
+import copy
 
 n, m = map(int, input().split())
-office = [list(map(int, input().split())) for _ in range(n)]
+map_matrix = [list(map(int, input().split())) for _ in range(n)]
+chess = [(i, j, map_matrix[i][j]) for i in range(n) for j in range(m) if map_matrix[i][j] in [1, 2, 3, 4, 5]]
 
-cctvs = []
-directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # 동, 남, 서, 북
-for i in range(n):
-    for j in range(m):
-        if 1 <= office[i][j] <= 5:
-            cctvs.append((i, j, office[i][j]))
+directions = [
+    [],
+    [[0], [1], [2], [3]],
+    [[0, 2], [1, 3]],
+    [[0, 1], [1, 2], [2, 3], [0, 3]],
+    [[0, 1, 2], [0, 1, 3], [1, 2, 3], [0, 2, 3]],
+    [[0, 1, 2, 3]],
+]
 
-def watch(x, y, direction, temp):
-    dx, dy = directions[direction]
-    while True:
-        x, y = x + dx, y + dy
-        if x < 0 or x >= n or y < 0 or y >= m or office[x][y] == 6:
-            break
-        if temp[x][y] == 0:
-            temp[x][y] = -1
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
 
-def dfs(depth, office):
-    if depth == len(cctvs):
-        return sum(row.count(0) for row in office)
+def fill(map_matrix, x, y, directions):
+    for d in directions:
+        nx, ny = x, y
+        while True:
+            nx += dx[d]
+            ny += dy[d]
+            if not (0 <= nx < n and 0 <= ny < m) or map_matrix[nx][ny] == 6:
+                break
+            elif map_matrix[nx][ny] == 0:
+                map_matrix[nx][ny] = -1
 
-    x, y, type = cctvs[depth]
+def dfs(depth, map_matrix):
+    if depth == len(chess):
+        return sum(row.count(0) for row in map_matrix)
+
+    x, y, type = chess[depth]
     result = float('inf')
-    
-    for direction in product(range(4), repeat=(4 if type == 5 else type)):
-        temp = [row[:] for row in office]
-        if type == 1:
-            for d in direction:
-                watch(x, y, d, temp)
-        elif type == 2:
-            for d in [direction[0], (direction[0] + 2) % 4]:
-                watch(x, y, d, temp)
-        elif type == 3:
-            for d in direction[:2]:
-                watch(x, y, d, temp)
-        elif type == 4:
-            for d in direction[:3]:
-                watch(x, y, d, temp)
-        elif type == 5:
-            for d in direction:
-                watch(x, y, d, temp)
-        
-        result = min(result, dfs(depth + 1, temp))
+    for direction in directions[type]:
+        tmp = copy.deepcopy(map_matrix)
+        fill(tmp, x, y, direction)
+        result = min(result, dfs(depth + 1, tmp))
     return result
 
-print(dfs(0, office))
+print(dfs(0, map_matrix))
