@@ -1,1 +1,1 @@
-print("Hello Student!\nWelcome to LeebrosCode!")
+print("Hello students!\nWelcome to LeebrosCode!")
