@@ -18,6 +18,8 @@ def find_max_rec():
                     if check_board(x1, y1, x2, y2):
                         area = (x2 - x1 + 1) * (y2 - y1 + 1)
                         max_area = max(max_area, area)
+                    else:
+                        max_area = -1
     return max_area
 
 
