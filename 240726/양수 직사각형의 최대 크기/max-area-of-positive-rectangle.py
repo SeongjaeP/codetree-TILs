@@ -19,7 +19,7 @@ def find_max_rec():
                         area = (x2 - x1 + 1) * (y2 - y1 + 1)
                         max_area = max(max_area, area)
                     else:
-                        max_area = -1
+                        return -1
     return max_area
 
 
