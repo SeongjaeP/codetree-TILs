@@ -5,7 +5,7 @@ board = [list(map(int, input().split())) for _ in range(n)]
 def check_board(x1, y1, x2, y2):
     for i in range(x1, x2 + 1):
         for j in range(y1, y2 + 1):
-            if board[i][j] < 0:
+            if board[i][j] <= 0:
                 return -1
     return (x2 - x1 + 1) * (y2 - y1 + 1)
 
