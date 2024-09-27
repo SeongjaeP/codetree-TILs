@@ -242,14 +242,14 @@ di = [-1,0,1,0]
 dj = [0,1,0,-1]
 arr = [[2] * (L + 2)] + [[2] + list(map(int,input().split())) + [2] for _ in range(L)] + [[2] * (L + 2)]
 units = {}
-v = [[0] * (N+2) for _ in range(N+2)]
+#v = [[0] * (N+2) for _ in range(N+2)]
 init_k =[0] * (N+1)
 for m in range(1, N+1):
     si,sj,h,w,k = map(int, input().split())
     units[m] = [si,sj,h,w,k]
     init_k[m] = k
-    for i in range(si, si+h):
-        v[i][sj:sj+w] = [m]*w
+    # for i in range(si, si+h):
+    #     v[i][sj:sj+w] = [m]*w
 
 def push_unit(start, dr): # s를 밀고, 연쇄처리 ... 
     q = []                 # push 후보 저장
