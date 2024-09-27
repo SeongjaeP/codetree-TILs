@@ -113,67 +113,67 @@
 
 from collections import deque
 
-L, N, Q = map(int,input().split())
+# L, N, Q = map(int,input().split())
 # 2로 둘러싸서 체스판 생성
-board = [[2] * (L + 2)] + [[2] + list(map(int,input().split())) + [2] for _ in range(L)] + [[2] * (L + 2)]
+# board = [[2] * (L + 2)] + [[2] + list(map(int,input().split())) + [2] for _ in range(L)] + [[2] * (L + 2)]
 
-# 위 오른쪽 아래 왼쪽
-dr = [-1,0,1,0]
-dc = [0,1,0,-1]
+# # 위 오른쪽 아래 왼쪽
+# dr = [-1,0,1,0]
+# dc = [0,1,0,-1]
 
-# 기사 정보 저장
-knights = {}
-for i in range(1, N + 1):
-    r, c, h, w, k = map(int, input().split())
-    knights[i] = (r, c, h, w, k)
+# # 기사 정보 저장
+# knights = {}
+# for i in range(1, N + 1):
+#     r, c, h, w, k = map(int, input().split())
+#     knights[i] = (r, c, h, w, k)
 
-def is_valid_position(r, c):
-    return 1 <= r < L + 1 and 1 <= c < L + 1
+# def is_valid_position(r, c):
+#     return 1 <= r < L + 1 and 1 <= c < L + 1
 
-cnt = 0
-def move_knight(knight_id, d):
-    global cnt
-    if knight_id not in knights or knights[knight_id][4] <= 0:
-        return 0
+# cnt = 0
+# def move_knight(knight_id, d):
+#     global cnt
+#     if knight_id not in knights or knights[knight_id][4] <= 0:
+#         return 0
 
-    r, c, h, w, k = knights[knight_id]
-    nr, nc = r + dr[d], c + dc[d]
+#     r, c, h, w, k = knights[knight_id]
+#     nr, nc = r + dr[d], c + dc[d]
 
-    # 미는 기사가 함정에 걸리는 경우 처리
-    for row in range(nr, nr + h):
-        for col in range(nc, nc + w):
-            if is_valid_position(row, col) and board[row][col] == 1:
-                k -= 1
-                cnt += 1
+#     # 미는 기사가 함정에 걸리는 경우 처리
+#     for row in range(nr, nr + h):
+#         for col in range(nc, nc + w):
+#             if is_valid_position(row, col) and board[row][col] == 1:
+#                 k -= 1
+#                 cnt += 1
 
-    if k <= 0:
-        del knights[knight_id]
-        return 0 
+#     if k <= 0:
+#         del knights[knight_id]
+#         return 0 
 
-    # 이동 가능한지 확인
-    for other_id, (or_, oc, oh, ow, ok) in knights.items():
-        if other_id == knight_id:
-            continue
-        for row in range(or_, or_ + oh):
-            for col in range(oc, oc + ow):
-                if nr <= row < nr + h and nc <= col < nc + w:
-                    trap_cnt = 0
-                    for r in range(or_ + dr[d], or_ + dr[d] + oh):
-                        for c in range(oc + dc[d], oc + dc[d] + ow):
-                            if is_valid_position(r, c) and board[r][c] == 1:
-                                cnt += 1
-                                trap_cnt += 1
-                    knights[other_id] = (or_ + dr[d], oc + dc[d], oh, ow, ok - trap_cnt)
-                    if knights[other_id][4] <= 0:
-                        del knights[other_id]
-                    move_knight(other_id, d) 
-    return cnt
+#     # 이동 가능한지 확인
+#     for other_id, (or_, oc, oh, ow, ok) in knights.items():
+#         if other_id == knight_id:
+#             continue
+#         for row in range(or_, or_ + oh):
+#             for col in range(oc, oc + ow):
+#                 if nr <= row < nr + h and nc <= col < nc + w:
+#                     trap_cnt = 0
+#                     for r in range(or_ + dr[d], or_ + dr[d] + oh):
+#                         for c in range(oc + dc[d], oc + dc[d] + ow):
+#                             if is_valid_position(r, c) and board[r][c] == 1:
+#                                 cnt += 1
+#                                 trap_cnt += 1
+#                     knights[other_id] = (or_ + dr[d], oc + dc[d], oh, ow, ok - trap_cnt)
+#                     if knights[other_id][4] <= 0:
+#                         del knights[other_id]
+#                     move_knight(other_id, d) 
+#     return cnt
     
-queries = tuple(map(int, input().split()) for _ in range(Q))
-total = 0
-for i, d in queries:
-    total += move_knight(i, d)
-print(total)
+# queries = tuple(map(int, input().split()) for _ in range(Q))
+# total = 0
+# for i, d in queries:
+#     total += move_knight(i, d)
+# print(total)
 
 
 
@@ -231,4 +231,76 @@ print(total)
 # for i, d in queries:
 #     total += knight_move(i, d)  
 
-# print(total)
+# print(total) 
+
+
+
+# 데미지는 초기값을 저장해놓자
+L, N, Q = map(int,input().split())
+
+di = [-1,0,1,0]
+dj = [0,1,0,-1]
+arr = [[2] * (L + 2)] + [[2] + list(map(int,input().split())) + [2] for _ in range(L)] + [[2] * (L + 2)]
+units = {}
+v = [[0] * (N+2) for _ in range(N+2)]
+init_k =[0] * (N+1)
+for m in range(1, N+1):
+    si,sj,h,w,k = map(int, input().split())
+    units[m] = [si,sj,h,w,k]
+    init_k[m] = k
+    for i in range(si, si+h):
+        v[i][sj:sj+w] = [m]*w
+
+def push_unit(start, dr): # s를 밀고, 연쇄처리 ... 
+    q = []                 # push 후보 저장
+    pset = set()            # 이동 기사번호 저장
+    damage = [0]*(N+1)
+
+    q.append(start)         # 초기데이터 append
+    pset.add(start)
+
+    while q:
+        cur = q.pop(0) # q에서 데이터 꺼내기
+        ci,cj,h,w,k = units[cur]
+
+        # 명령받은 방향진행, 벽x, 겹치는 다른거면 q에 append
+        ni,nj = ci+di[dr], cj+dj[dr]
+        for i in range(ni, ni+h):
+            for j in range(nj, nj+w):
+                if arr[i][j] == 2:  #  벽이면 
+                    return
+                if arr[i][j] == 1:
+                    damage[cur] += 1 # 데미지 누적
+
+        # 겹치는 다른 유닛있는 경우 q에 추가
+        for idx in units:
+            if idx in pset: continue # 이미 움직일 대상이면 
+
+            ti,tj,th,tw,tk = units[idx]
+            # 겹치는 경우
+            if ni <= ti+th-1 and ni+h-1 >= ti and tj <= nj+w-1 and nj <= tj+tw-1:
+                q.append(idx)
+                pset.add(idx)
+
+    # 명령 받은 기사는 데미지 입지 않음
+    damage[start] = 0
+    # 이동, 데미지 체력이상이면 제거
+    for idx in pset:
+        si, sj, h, w, k = units[idx]
+
+        if k <= damage[idx]: # 체력보다 더 큰 데미지면 삭제
+            units.pop(idx)
+        else:
+            ni, nj = si+di[dr], sj+dj[dr]
+            units[idx] = [ni,nj,h,w,k-damage[idx]]
+
+for _ in range(Q):
+    idx, dr = map(int,input().split())
+    if idx in units:
+        push_unit(idx, dr) # 명령받은 기사(연쇄적으로 밀기: 벽이 없는 경우까지)
+
+
+ans = 0
+for idx in units:
+    ans += init_k[idx] - units[idx][4]
+print(ans)
