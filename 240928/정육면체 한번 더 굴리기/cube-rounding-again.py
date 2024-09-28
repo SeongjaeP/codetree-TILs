@@ -6,7 +6,7 @@ board = [list(map(int,input().split())) for _ in range(n)]
 w = deque([1,3,6,4])
 h = deque([1,2,6,5])
 
-def move_dice(x,y,dir,w,h):
+def move_dice(x,y,dir,w,h,n):
 
     direction = [(0,1), (1,0), (0,-1), (-1,0)]
     nx, ny = x + direction[dir][0], y + direction[dir][1]
@@ -84,6 +84,6 @@ def bfs(x,y,board,dir,n):
 ans = 0
 x, y, dir = 0, 0, 0
 for _ in range(m):
-    x, y, dir, w, h = move_dice(x,y,dir,w,h)
+    x, y, dir, w, h = move_dice(x,y,dir,w,h,n)
     ans += bfs(x,y,board,dir,n)
 print(ans)
