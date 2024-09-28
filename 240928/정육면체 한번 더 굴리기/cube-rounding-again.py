@@ -14,6 +14,7 @@ def move_dice(x,y,dir,w,h,n):
     if nx == n or ny == n or nx < 0 or ny < 0:
         # 방향전환 필요 dir 
         dir = (dir+2) % 4
+        nx, ny = x + direction[dir][0], y + direction[dir][1]
 
     if dir == 0:
         w.rotate(1)
