@@ -61,8 +61,11 @@ def based_column(matrix):
     
     return transposed_columns_matrix
 
+prev_board = None
+#new_board = [x[:] for x in board]
 i = 0
-while i < 100: 
+while i < 100 and board != prev_board:
+    prev_board = board.copy()
     if 0 <= r < len(board) and 0 <= c < len(board[0]):
         if board[r-1][c-1] == k:
             print(i)
