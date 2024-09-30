@@ -49,6 +49,9 @@ def move_dice(x,y,dir,w,h,n):
         w[0] = h[0]
         w[2] = h[2]
 
+# 0 1 2 3 
+# 북 동 남 서 
+
     # 방향전환 시계방향, 반시계방향 정하기
     if w[2] > board[nx][ny]:
         dir = (dir+1) % 4 # 시계방향 회전
