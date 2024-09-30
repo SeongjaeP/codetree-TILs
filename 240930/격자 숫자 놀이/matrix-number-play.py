@@ -67,9 +67,6 @@ while True:
         if board[r-1][c-1] == k:
             print(i)
             break
-    if i > 100:
-        print(-1)
-        break
 
     else:
         if len(board) > 100:
