@@ -63,23 +63,23 @@ def based_column(matrix):
 
 i = 0
 while i < 100: 
-    if len(board) > 100:
-        board = board[:100]
-
-    if len(board[0]) > 100:
-        board = [row[:100] for row in board]
-
-    if len(board) >= len(board[0]):
-        board = based_row(board) 
-
-    elif len(board) < len(board[0]):
-        board = based_column(board) 
-
     if 0 <= r < len(board) and 0 <= c < len(board[0]):
         if board[r-1][c-1] == k:
             print(i)
             break
-    i += 1
+    else:
+        if len(board) > 100:
+            board = board[:100]
 
+        if len(board[0]) > 100:
+            board = [row[:100] for row in board]
+
+        if len(board) >= len(board[0]):
+            board = based_row(board) 
+            i += 1
+        elif len(board) < len(board[0]):
+            board = based_column(board) 
+            i += 1
+    
 else:  
     print(-1)
