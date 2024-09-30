@@ -11,136 +11,80 @@
 '''
 
 # 행이나 열의 길이가 100을 넘어가면 처음 100개 제외하고 버리기 [:100]
-# from collections import Counter
-
-# r, c, k = map(int,input().split())
-# board = [list(map(int,input().split())) for _ in range(3)]
-
-
-# def based_row(matrix):
-    
-#     new_matrix = []
-#     for row in matrix:
-        
-#         new_row = []
-#         ex_counter = Counter(row)
-#         sorted_counter = sorted(ex_counter.items(), key=lambda x: (-x[1], x[0]))
-#         for item, count in sorted_counter:
-#             new_row.extend([item, count])
-#         new_matrix.append(new_row)
-            
-#     lengths = [len(row) for row in new_matrix]
-#     max_length = max(lengths)
-#     for row in new_matrix:
-#         while len(row) < max_length:
-#             row.append(0)
-        
-#     return new_matrix
-
-
-# def based_column(matrix):
-    
-#     columns = [ [row[i] for row in matrix] for i in range(len(matrix[0]))]
-#     new_columns = []
-
-#     for col in columns:
-#         ex_counter = Counter(col)
-#         sorted_counter = sorted(ex_counter.items(), key=lambda x: (-x[1], x[0]))
-#         new_col = []
-#         for item, count in sorted_counter:
-#             new_col.extend([item, count])
-#         new_columns.append(new_col)
-
-#     max_length = max(len(col) for col in new_columns)
-
-#     for col in new_columns:
-#         while len(col) < max_length:
-#             col.append(0)
-    
-#     transposed_columns_matrix = list(zip(*new_columns))
-    
-#     return transposed_columns_matrix
-
-# i = 0
-# while True:
-#     if 0 <= r < len(board) and 0 <= c < len(board[0]):
-#         if board[r-1][c-1] == k:
-#             print(i)
-#             break
-#     else:
-#         if len(board) > 100:
-#             board = board[:100]
-
-#         if len(board[0]) > 100:
-#             board = [row[:100] for row in board]
-
-#         if len(board) >= len(board[0]):
-#             board = based_row(board) 
-           
-#         elif len(board) < len(board[0]):
-#             board = based_column(board) 
-        
-#         i += 1
-    
-# else:  
-#     print(-1) 
-
-
 from collections import Counter
 
-r, c, k = map(int, input().split())
-board = [list(map(int, input().split())) for _ in range(3)]
+r, c, k = map(int,input().split())
+board = [list(map(int,input().split())) for _ in range(3)]
 
 
-def r_operation(matrix):
+def based_row(matrix):
+    
     new_matrix = []
     for row in matrix:
-        counter = Counter(row)
-        sorted_items = sorted(counter.items(), key=lambda x: (-x[1], x[0]))
-        new_row = [val for pair in sorted_items for val in pair]
+        
+        new_row = []
+        ex_counter = Counter(row)
+        sorted_counter = sorted(ex_counter.items(), key=lambda x: (-x[1], x[0]))
+        for item, count in sorted_counter:
+            new_row.extend([item, count])
         new_matrix.append(new_row)
-
-    max_length = max(len(row) for row in new_matrix)
+            
+    lengths = [len(row) for row in new_matrix]
+    max_length = max(lengths)
     for row in new_matrix:
-        row += [0] * (max_length - len(row))
-
+        while len(row) < max_length:
+            row.append(0)
+        
     return new_matrix
 
 
-def c_operation(matrix):
-    columns = [[row[i] for row in matrix] for i in range(len(matrix[0]))]
+def based_column(matrix):
+    
+    columns = [ [row[i] for row in matrix] for i in range(len(matrix[0]))]
     new_columns = []
 
     for col in columns:
-        counter = Counter(col)
-        sorted_items = sorted(counter.items(), key=lambda x: (-x[1], x[0]))
-        new_col = [val for pair in sorted_items for val in pair]
+        ex_counter = Counter(col)
+        sorted_counter = sorted(ex_counter.items(), key=lambda x: (-x[1], x[0]))
+        new_col = []
+        for item, count in sorted_counter:
+            new_col.extend([item, count])
         new_columns.append(new_col)
 
     max_length = max(len(col) for col in new_columns)
+
     for col in new_columns:
-        col += [0] * (max_length - len(col))
+        while len(col) < max_length:
+            col.append(0)
+    
+    transposed_columns_matrix = list(zip(*new_columns))
+    
+    return transposed_columns_matrix
 
-    return [list(row) for row in zip(*new_columns)]  # 리스트 컴프리헨션 사용
-
-
-time = 0
-while time < 100:
-    if 0 <= r - 1 < len(board) and 0 <= c - 1 < len(board[0]):  # 0-based indexing
-        if board[r - 1][c - 1] == k:
-            print(time)
+i = 0
+while True:
+    if 0 <= r < len(board) and 0 <= c < len(board[0]):
+        if board[r-1][c-1] == k:
+            print(i)
             break
+    if i > 100:
+        print(-1)
+        break
 
-    if len(board) > 100:
-        board = board[:100]
-    if len(board[0]) > 100:
-        board = [row[:100] for row in board]
-
-    if len(board) >= len(board[0]):
-        board = r_operation(board)
     else:
-        board = c_operation(board)
+        if len(board) > 100:
+            board = board[:100]
 
-    time += 1
-else:
+        if len(board[0]) > 100:
+            board = [row[:100] for row in board]
+
+        if len(board) >= len(board[0]):
+            board = based_row(board) 
+           
+        elif len(board) < len(board[0]):
+            board = based_column(board) 
+        
+        i += 1
+    
+else:  
     print(-1)
