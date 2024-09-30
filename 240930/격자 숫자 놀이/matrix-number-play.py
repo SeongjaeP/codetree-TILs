@@ -63,9 +63,6 @@ def based_column(matrix):
 
 i = 0
 while i < 100: 
-
-    i += 1
-
     if len(board) > 100:
         board = board[:100]
 
@@ -82,6 +79,7 @@ while i < 100:
         if board[r-1][c-1] == k:
             print(i)
             break
-    
+    i += 1
+
 else:  
     print(-1)
