@@ -40,7 +40,7 @@ def based_row(matrix):
 
 def based_column(matrix):
     
-    columns = [ [row[i] for row in matrix] for i in range(len(matrix[0]))]
+    columns = [[row[i] for row in matrix] for i in range(len(matrix[0]))]
     new_columns = []
 
     for col in columns:
