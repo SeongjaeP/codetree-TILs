@@ -64,7 +64,7 @@ def based_column(matrix):
 
 #new_board = [x[:] for x in board]
 i = 0
-while i < 100 and board != prev_board:
+while True:
     if 0 <= r < len(board) and 0 <= c < len(board[0]):
         if board[r-1][c-1] == k:
             print(i)
@@ -78,10 +78,11 @@ while i < 100 and board != prev_board:
 
         if len(board) >= len(board[0]):
             board = based_row(board) 
-            i += 1
+           
         elif len(board) < len(board[0]):
             board = based_column(board) 
-            i += 1
+        
+        i += 1
     
 else:  
     print(-1)
